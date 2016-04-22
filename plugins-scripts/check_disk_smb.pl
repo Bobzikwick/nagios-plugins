@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!@PERL@ -w
 #
 #
 # check_disk.pl <host> <share> <user> <pass> [warn] [critical] [port]
@@ -24,7 +24,8 @@ use strict;
 use Getopt::Long;
 use vars qw($opt_P $opt_V $opt_h $opt_H $opt_s $opt_W $opt_u $opt_p $opt_w $opt_c $opt_a $verbose);
 use vars qw($PROGNAME);
-use lib utils.pm ;
+use FindBin;
+use lib "$FindBin::Bin";
 use utils qw($TIMEOUT %ERRORS &print_revision &support &usage);
 
 sub print_help ();
@@ -32,7 +33,7 @@ sub print_usage ();
 
 $PROGNAME = "check_disk_smb";
 
-$ENV{'PATH'}='';
+$ENV{'PATH'}='@TRUSTED_PATH@';
 $ENV{'BASH_ENV'}=''; 
 $ENV{'ENV'}='';
 

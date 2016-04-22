@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!@PERL@ -w
 #
 # usage: 
 #    check_flexlm.pl license_file
@@ -35,7 +35,8 @@
 use strict;
 use Getopt::Long;
 use vars qw($opt_V $opt_h $opt_F $opt_t $verbose $PROGNAME);
-use lib utils.pm;
+use FindBin;
+use lib "$FindBin::Bin";
 use utils qw(%ERRORS &print_revision &support &usage);
 
 $PROGNAME="check_flexlm";
@@ -43,7 +44,7 @@ $PROGNAME="check_flexlm";
 sub print_help ();
 sub print_usage ();
 
-$ENV{'PATH'}='';
+$ENV{'PATH'}='@TRUSTED_PATH@';
 $ENV{'BASH_ENV'}=''; 
 $ENV{'ENV'}='';
 

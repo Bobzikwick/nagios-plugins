@@ -98,7 +98,7 @@ main (int argc, char **argv)
 		die (max_state_alt (result, STATE_UNKNOWN), _("No data returned from command\n"));
 
 	for (i = 0; i < chld_out.lines; i++) {
-		if (subst_text && result >= 0 && result <= 4 && result != state[result])  {
+		if (subst_text && result >= 0 && result <= 3 && result != state[result])  {
 			/* Loop over each match found */
 			while ((sub = strstr (chld_out.line[i], state_text (result)))) {
 				/* Terminate the first part and skip over the string we'll substitute */
@@ -158,10 +158,7 @@ process_arguments (int argc, char **argv)
 			print_revision (progname, NP_VERSION);
 			exit (EXIT_SUCCESS);
 		case 't':     /* timeout period */
-			if (!is_integer (optarg))
-				usage2 (_("Timeout interval must be a positive integer"), optarg);
-			else
-				timeout_interval = atoi (optarg);
+			timeout_interval = parse_timeout_string (optarg);
 			break;
 		case 'T':     /* Result to return on timeouts */
 			if ((timeout_state = translate_state(optarg)) == ERROR)

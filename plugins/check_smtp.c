@@ -131,7 +131,17 @@ main (int argc, char **argv)
 	struct timeval tv;
 
 	/* Catch pipe errors in read/write - sometimes occurs when writing QUIT */
+#ifdef HAVE_SIGACTION
+	struct sigaction sig_action;
+
+	sig_action.sa_sigaction = NULL;
+	sig_action.sa_handler = SIG_IGN;
+	sigemptyset(&sig_action.sa_mask);
+	sig_action.sa_flags = 0;
+	sigaction(SIGPIPE, &sig_action, NULL);
+#else /* HAVE_SIGACTION */
 	(void) signal (SIGPIPE, SIG_IGN);
+#endif /* HAVE_SIGACTION */
 
 	setlocale (LC_ALL, "");
 	bindtextdomain (PACKAGE, LOCALEDIR);
@@ -173,7 +183,7 @@ main (int argc, char **argv)
 	(void) signal (SIGALRM, socket_timeout_alarm_handler);
 
 	/* set socket timeout */
-	(void) alarm (socket_timeout);
+	(void) alarm (timeout_interval);
 
 	/* start timer */
 	gettimeofday (&tv, NULL);
@@ -574,12 +584,7 @@ process_arguments (int argc, char **argv)
 			ignore_send_quit_failure++;             /* ignore problem sending QUIT */
 			break;
 		case 't':									/* timeout */
-			if (is_intnonneg (optarg)) {
-				socket_timeout = atoi (optarg);
-			}
-			else {
-				usage4 (_("Timeout interval must be a positive integer"));
-			}
+			timeout_interval = parse_timeout_string (optarg);
 			break;
 		case 'S':
 		/* starttls */

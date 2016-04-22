@@ -1,4 +1,4 @@
-#!/usr/bin/perl -wT
+#!@PERL@ -w
 
 # -----------------------------------------------------------------------------
 # File Name:		check_ircd.pl
@@ -51,7 +51,8 @@ use strict;
 use Getopt::Long;
 use vars qw($opt_V $opt_h $opt_t $opt_p $opt_H $opt_w $opt_c $verbose);
 use vars qw($PROGNAME);
-use lib utils.pm;
+use FindBin;
+use lib "$FindBin::Bin";
 use utils qw($TIMEOUT %ERRORS &print_revision &support &usage);
 
 # ----------------------------------------------------[ Function Prototypes ]--
@@ -63,9 +64,9 @@ sub bindRemote ($$);
 
 # -------------------------------------------------------------[ Enviroment ]--
 
-$ENV{PATH} = "";
-$ENV{ENV} = "";
-$ENV{BASH_ENV} = "";
+$ENV{'PATH'}='@TRUSTED_PATH@';
+$ENV{'BASH_ENV'}=''; 
+$ENV{'ENV'}='';
 
 # -----------------------------------------------------------------[ Global ]--
 

@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!@PERL@ -w
 #
 # check_ifoperstatus.pl - nagios plugin 
 #
@@ -34,7 +34,8 @@
 
 use POSIX;
 use strict;
-use lib utils.pm ;
+use FindBin;
+use lib "$FindBin::Bin";
 use utils qw($TIMEOUT %ERRORS &print_revision &support);
 
 use Net::SNMP;
@@ -46,6 +47,10 @@ sub print_help ();
 sub usage ($);
 sub print_usage ();
 sub process_arguments ();
+
+$ENV{'PATH'}='@TRUSTED_PATH@';
+$ENV{'BASH_ENV'}=''; 
+$ENV{'ENV'}='';
 
 my $timeout;
 my $status;

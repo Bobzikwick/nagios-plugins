@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!@PERL@ -w
 
 #
 # Copyright 2003 Roy Sigurd Karlsbakk
@@ -35,6 +35,10 @@ use utils qw($TIMEOUT %ERRORS &print_revision &support);
 use strict;
 
 my $PROGNAME = "check_mssql";
+
+$ENV{'PATH'}='@TRUSTED_PATH@';
+$ENV{'BASH_ENV'}=''; 
+$ENV{'ENV'}='';
 
 my (
 	$server,$database,$username,$password,$query,$help,$verbose,$timeout,

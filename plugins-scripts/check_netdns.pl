@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!@PERL@ -w
 
 # Perl version of check_dns plugin which calls DNS directly instead of
 # relying on nslookup (which has bugs)
@@ -27,10 +27,15 @@
 
 use Getopt::Long;
 use Net::DNS;
-use lib utils.pm;
+use FindBin;
+use lib "$FindBin::Bin";
 use utils ;
 
 my $PROGNAME = "check_netdns";
+
+$ENV{'PATH'}='@TRUSTED_PATH@';
+$ENV{'BASH_ENV'}=''; 
+$ENV{'ENV'}='';
 
 Getopt::Long::Configure(`bundling`);
 GetOptions("V" => $opt_V,         "version" => $opt_V,
