@@ -479,13 +479,13 @@ main (int argc, char **argv)
 			is_ticks = 1;
 		}
 		else
-			show = response + 3;
+			show = response;
 
 		iresult = STATE_DEPENDENT;
 
 		/* Process this block for numeric comparisons */
 		/* Make some special values,like Timeticks numeric only if a threshold is defined */
-		if (thlds[i]->warning || thlds[i]->critical || calculate_rate || is_ticks) {
+		if (thlds[i]->warning || thlds[i]->critical || calculate_rate || is_ticks || offset != 0.0) {
 			ptr = strpbrk (show, "-0123456789");
 			if (ptr == NULL)
 				die (STATE_UNKNOWN,_("No valid data returned (%s)\n"), show);
@@ -594,24 +594,13 @@ main (int argc, char **argv)
 			len = sizeof(perfstr)-strlen(perfstr)-1;
 			strncat(perfstr, show, len>ptr-show ? ptr-show : len);
 
-			if (warning_thresholds) {
-				strncat(perfstr, ";", sizeof(perfstr)-strlen(perfstr)-1);
-				strncat(perfstr, warning_thresholds, sizeof(perfstr)-strlen(perfstr)-1);
-			}
-
-			if (critical_thresholds) {
-				if (!warning_thresholds) strncat(perfstr, ";", sizeof(perfstr)-strlen(perfstr)-1);
-				strncat(perfstr, ";", sizeof(perfstr)-strlen(perfstr)-1);
-				strncat(perfstr, critical_thresholds, sizeof(perfstr)-strlen(perfstr)-1);
-			}
-
-			if (type)
-				strncat(perfstr, type, sizeof(perfstr)-strlen(perfstr)-1);
 			if (nunits > (size_t)0 && (size_t)i < nunits && unitv[i] != NULL) {
 				xasprintf (&temp_string, "%s", unitv[i]);
 				strncat(perfstr, temp_string, sizeof(perfstr)-strlen(perfstr)-1);
 				}
 
+			if (type)
+				strncat(perfstr, type, sizeof(perfstr)-strlen(perfstr)-1);
 
 			if (thlds[i]->warning || thlds[i]->critical) {
 				strncat(perfstr, ";", sizeof(perfstr)-strlen(perfstr)-1);
@@ -735,7 +724,7 @@ process_arguments (int argc, char **argv)
 	}
 
 	while (1) {
-		c = getopt_long (argc, argv, "nhvVOt:c:w:H:C:o:e:E:d:D:s:t:R:r:l:u:p:m:P:N:L:U:a:x:A:X:",
+		c = getopt_long (argc, argv, "nhvVO46t:c:w:H:C:o:e:E:d:D:s:t:R:r:l:u:p:m:P:N:L:U:a:x:A:X:",
 									 longopts, &option);
 
 		if (c == -1 || c == EOF)

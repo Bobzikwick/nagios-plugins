@@ -2,6 +2,8 @@
 tags
 cscope.out
 nbproject/
+.kdev4/
+plugins.kdev4
 
 # In all paths
 NP-VERSION-FILE
@@ -250,6 +252,12 @@ NP-VERSION-FILE
 /plugins-scripts/check_wave
 /plugins-scripts/check_file_age
 
+# /plugins-python
+/plugins-python/Makefile.in
+/plugins-python/Makefile
+plugins-python/*.py
+plugins-python/check_ncpa.py
+
 # /po/
 /po/Makefile
 /po/Makefile.in
@@ -264,3 +272,5 @@ NP-VERSION-FILE
 /po/quot.sed
 /po/POTFILES
 /po/stamp-po
+
+/tools/build_perl_modules
